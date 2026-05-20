@@ -69,7 +69,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     
     cy.get('.error').should('be.visible')
   })
-  it.only('preenche e limpa os campos nome, sobrenome, email e telefone', () =>{
+  it('preenche e limpa os campos nome, sobrenome, email e telefone', () =>{
     cy.get('#firstName').as('nameField').should('be.visible')
     cy.get('@nameField').type('Luiz').should('have.value', 'Luiz')
     cy.get('@nameField').clear().should('have.value', '')
@@ -94,5 +94,8 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('@button').click()
     
     cy.get('.error').should('be.visible')
+  })
+  it.only('envia o formuário com sucesso usando um comando customizado', () => { 
+    cy.fillMandatoryFieldsAndSubmit('Luiz', 'Fernando', 'teste@gmail.com', 'teste testado')
   })
 })
