@@ -23,7 +23,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('@textArea').type(longText, {delay: 300})
 
     
-    cy.get('.button').as('button').should('be.visible')
+    cy.contains('button', 'Enviar').as('button')
     cy.get('@button').click()
 
     cy.get('.success > strong').should('be.visible')
@@ -44,7 +44,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').as('textArea').should('be.visible')
     cy.get('@textArea').type('mensagem de teste', {delay: 0})
 
-    cy.get('.button').as('button').should('be.visible')
+    cy.contains()
     cy.get('@button').click()
     
     cy.get('.error').should('be.visible')
@@ -64,7 +64,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').as('textArea').should('be.visible')
     cy.get('@textArea').type('mensagem de teste', {delay: 0})
 
-    cy.get('.button').as('button').should('be.visible')
+    cy.contains()
     cy.get('@button').click()
     
     cy.get('.error').should('be.visible')
@@ -90,12 +90,42 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('@textArea').type('mensagem de teste', {delay: 0}).should('have.value', 'mensagem de teste')
     cy.get('@textArea').clear().should('have.value', '')
 
-    cy.get('.button').as('button').should('be.visible')
+    cy.contains()
     cy.get('@button').click()
     
     cy.get('.error').should('be.visible')
   })
-  it.only('envia o formuário com sucesso usando um comando customizado', () => { 
+  it('envia o formuário com sucesso usando um comando customizado', () => { 
     cy.fillMandatoryFieldsAndSubmit('Luiz', 'Fernando', 'teste@gmail.com', 'teste testado')
+  })
+  it('envia o formuário com sucesso usando um comando customizado', () => { 
+    const data = {
+      firstName : 'Luiz',
+      lastName : 'Fernando',
+      email : 'teste@teste.com.br',
+      message : 'Esse é um teste'
+    }
+    cy.fillMandatoryFieldsAndSubmitObj(data)
+  })
+  it('envia o formuário com sucesso usando um comando customizado', () => { 
+    cy.fillMandatoryFieldsAndSubmitObj()
+  })
+  it('seleciona um produto (YouTube) por seu texto', () => { 
+    cy.get('select').select('Youtube').should('have.value', 'youtube')
+  })
+  it('seleciona um produto (mentoria) por seu valor', () => { 
+    cy.get('select').select('mentoria').should('have.value', 'mentoria') 
+  })
+  it('seleciona um produto (Blog) por seu índice', () => { 
+    cy.get('select').select(1).should('have.value', 'blog') 
+  })
+  it.only('seleciona uma opçao aleatoria para o campo select', () => { 
+    cy.get('select option').as('options').its('length', {log: false}).then(n=>{
+      cy.get('@options', {log: false}).then($options => {
+        const randomOptionIndex = Cypress._.random(1,n - 1)
+        const randomOptionText = $options[randomOptionIndex].innerText
+        cy.get('select').select(randomOptionText)
+      })
+    }) 
   })
 })
