@@ -119,7 +119,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   it('seleciona um produto (Blog) por seu índice', () => { 
     cy.get('select').select(1).should('have.value', 'blog') 
   })
-  it.only('seleciona uma opçao aleatoria para o campo select', () => { 
+  it('seleciona uma opçao aleatoria para o campo select', () => { 
     cy.get('select option').as('options').its('length', {log: false}).then(n=>{
       cy.get('@options', {log: false}).then($options => {
         const randomOptionIndex = Cypress._.random(1,n - 1)
@@ -127,5 +127,29 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.get('select').select(randomOptionText)
       })
     }) 
+  })
+  it('marca o tipo de atendimento "Feedback"', () => { 
+    cy.get('input[type="radio"][value="feedback"]').should('have.value', 'feedback').check().should('be.checked')
+  })
+
+  it('marca cada tipo de atendimento', () =>{
+    cy.get('input[type="radio"] ').each(typeOfService => {
+      cy.wrap(typeOfService).check().should('be.checked')
+     })
+  })
+  it('marca ambos checkboxes, depois desmarca o último', () =>{
+    cy.get('#check input[type="checkbox"]').check().should('be.checked').last().uncheck()
+     
+  })
+  it('seleciona um arquivo da pasta fixtures', () =>{
+    cy.get('input[type="file"]').selectFile('cypress/fixtures/example.json')
+     
+  })
+   it('seleciona um arquivo simulando um drag-and-drop', () =>{
+    cy.get('input[type="file"]').selectFile('cypress/fixtures/example.json', { action: 'drag-drop'})
+  })
+   it.only('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () =>{
+    cy.fixture('example.json').as('example')
+    cy.get('input[type="file"]').selectFile('@example')
   })
 })
