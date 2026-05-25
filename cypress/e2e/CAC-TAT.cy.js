@@ -20,7 +20,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
 
     cy.get('#open-text-area').as('textArea').should('be.visible')
-    cy.get('@textArea').type(longText, {delay: 300})
+    cy.get('@textArea').type(longText, {delay: 0})
 
     
     cy.contains('button', 'Enviar').as('button')
@@ -155,7 +155,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () =>{
     cy.contains('a', 'Política de Privacidade').should('have.attr', 'target', '_blank')
   })
-  it.only('testa a página da política de privacidade de forma independente', () =>{
+  it('testa a página da política de privacidade de forma independente', () =>{
     cy.contains('a', 'Política de Privacidade').invoke('removeAttr', 'target')
   })
 })
