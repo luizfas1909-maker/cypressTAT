@@ -222,7 +222,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   it('preenche o campo da área de texto usando o comando invoke', () => {
     cy.get("#firstName").should('be.visible').invoke('val', 'Rodolfo Almeida')
   })
-  it.only('faz uma requisição HTTP', () => {
+  it('faz uma requisição HTTP', () => {
     cy.request({
       method: 'GET',
       url: 'https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html' 
@@ -231,5 +231,10 @@ describe("Central de Atendimento ao Cliente TAT", () => {
       expect(response.statusText).to.eq('OK')
       expect(response.body).to.include('CAC TAT')
     })
+  })
+  it.only('Tornar o gato visivel', () =>{
+    cy.get('#cat').should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
   })
 });
